@@ -1,0 +1,25 @@
+<h1 class="recipeHead"> <%= @recipe.name%> </h1>
+<div class="recipeDetails">
+  <p>Preparation time: <%= @recipe.preparation_time%> hour</p>
+  <% if can? :manage,@recipe %>
+  <%= form_with(model: @recipe) do |form| %>
+    <div>
+    <%= form.label :public, style: "display: block" %>
+    <%= form.check_box :public %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+  <% end %>
+  <% end %>
+  <p>Cooking time: <%= @recipe.cooking_time%> hour</p>
+  <% if can? :read, @recipe or @recipe.public %>
+    <p> <%= @recipe.description%> </p>
+  <% end %>
+  <P> public: <%= @recipe.public%></P>
+  <%= link_to 'Generate shopping list' %>
+  <% if can? :manage, @recipe %>
+  <%= link_to 'Add food', new_food_path(recipe: @recipe) , class:("btn") %>
+  <% end %>
+</div>

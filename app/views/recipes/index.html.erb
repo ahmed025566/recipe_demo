@@ -1,0 +1,30 @@
+<% if user_signed_in? %>
+<div class="navBar">
+  Logged in as <strong><%= current_user.email %></strong>
+  <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+  <%= button_to("Log Out", destroy_user_session_path, method: :delete, class:('logout' )) %>
+  </div>
+<% else %>
+<div class="navBar">
+  <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+  <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+</div>
+<% end %>
+<div class="recipes">
+  <% @recipes.each do |recipe| %>
+    <div class="recipe">
+      <div>
+        <h2 class="recipeName"> <%= recipe.name %> </h2>
+        <% if can? :destroy, recipe%>
+          <%= button_to "Remove", recipe, method: :delete , class:('removeRecipe'), remote: true %>
+        <% end %>
+      </div>
+      <%= link_to recipe_path(recipe), class:('recipeDetails') do %>
+        <p class="recipeDescription"> <%= recipe.description%></p>
+      <% end %>
+    </div>
+    
+  <% end %>
+</div>  
+
+<%= console %>
